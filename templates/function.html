@@ -59,8 +59,8 @@
     }
     async function pollForResult(analysis_id, fileName, link) {
       let attempts = 0;
-      const maxAttempts = 10;
-      const delay = 5000;
+      const maxAttempts = 20;
+      const delay = 10000;
       while (attempts < maxAttempts) {
         const res = await fetch(`/check-status/${analysis_id}`);
         const result = await res.json();
