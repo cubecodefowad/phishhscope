@@ -1,4 +1,8 @@
 __pycache__/
 uploads/
 *.pyc
+<<<<<<< HEAD
 logs/
+=======
+logs/
+>>>>>>> d6d5d15087a71aa78f5922375fa900b63e1d575e
