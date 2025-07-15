@@ -11,7 +11,7 @@ PhishScope is a simple web app that scans email attachments using the VirusTotal
 ## Setup
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/phishscope.git
+git clone https://github.com/cubecodefowad/phishhscope.git
 cd phishscope
 pip install -r requirements.txt
 python app.py
