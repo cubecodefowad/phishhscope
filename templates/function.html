@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PhishScope - Scan Attachment</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="scan-page">
+  <div class="container">
+    <h2>Scan Email Attachment</h2>
+    <p>Upload a file to check if it's malicious or suspicious.</p>
+    <div class="upload-box">
+      <input type="file" id="fileInput" style="display:none" onchange="showFileName()">
+      <label for="fileInput" class="file-label">Choose File</label>
+      <span id="fileName" class="file-name">No file chosen</span>
+      <button class="cta-btn" onclick="uploadFile()">Scan</button>
+    </div>
+    <div class="consent-notice">By uploading, you agree that your file will be sent to VirusTotal for analysis. <a href="https://support.virustotal.com/hc/en-us/articles/115002168385-Privacy-Policy" target="_blank">Learn more</a>.</div>
+    <div class="result-card" id="resultCard" style="display:none">
+      <div class="result" id="scanResult"></div>
+    </div>
+    <a href="/" class="back-link">&larr; Back to Home</a>
+  </div>
+  <script>
+    function showFileName() {
+      const fileInput = document.getElementById("fileInput");
+      const fileName = document.getElementById("fileName");
+      fileName.textContent = fileInput.files.length ? fileInput.files[0].name : "No file chosen";
+    }
+    async function uploadFile() {
+      const fileInput = document.getElementById("fileInput");
+      if (!fileInput.files.length) return alert("Please select a file.");
+      const formData = new FormData();
+      formData.append("file", fileInput.files[0]);
+      document.getElementById("resultCard").style.display = "block";
+      document.getElementById("scanResult").innerHTML = "<span class='loading'>⏳ Uploading and scanning...</span>";
+      const res = await fetch("/scan-attachment", {
+        method: "POST",
+        body: formData
+      });
+      const data = await res.json();
+      if (data.malicious !== undefined) {
+        displayResult(data);
+      } else if (data.analysis_id) {
+        document.getElementById("scanResult").innerHTML = "<span class='loading'>⏳ File uploaded. Waiting for VirusTotal analysis...</span>";
+        pollForResult(data.analysis_id, data.file, data.link);
+      } else {
+        document.getElementById("scanResult").innerHTML = "<span class='error'>❌ Error: " + (data.error || "Unknown") + "</span>";
+      }
+    }
+    function displayResult(data) {
+      let output = `<div class='result-title'><span class='icon-file'>📄</span> <strong>${data.file}</strong></div>`;
+      output += `<div class='result-row'><span class='icon-malicious'>🚨</span> <span class='label'>Malicious:</span> <span class='malicious-val'>${data.malicious}</span></div>`;
+      output += `<div class='result-row'><span class='icon-suspicious'>⚠️</span> <span class='label'>Suspicious:</span> <span class='suspicious-val'>${data.suspicious}</span></div>`;
+      output += `<div class='result-row'><span class='icon-info'>💬</span> <span class='label'>Info:</span> <span>${data.explanation}</span></div>`;
+      output += `<div class='result-row'><span class='icon-link'>🔗</span> <a href='${data.link}' target='_blank'>View report</a></div>`;
+      document.getElementById("scanResult").innerHTML = output;
+    }
+    async function pollForResult(analysis_id, fileName, link) {
+      let attempts = 0;
+      const maxAttempts = 10;
+      const delay = 5000;
+      while (attempts < maxAttempts) {
+        const res = await fetch(`/check-status/${analysis_id}`);
+        const result = await res.json();
+        if (result.done) {
+          displayResult({
+            file: fileName,
+            malicious: result.malicious,
+            suspicious: result.suspicious,
+            explanation: result.explanation,
+            link: link
+          });
+          return;
+        }
+        document.getElementById("scanResult").innerHTML = `<span class='loading'>⏳ Still analyzing... (${attempts + 1}/${maxAttempts})</span>`;
+        await new Promise(resolve => setTimeout(resolve, delay));
+        attempts++;
+      }
+      document.getElementById("scanResult").innerHTML =
+        `<span class='error'>⚠️ Analysis not completed after ${maxAttempts} attempts. Try refreshing later.<br>🔗 <a href='${link}' target='_blank'>${link}</a></span>`;
+    }
+  </script>
+</body>
+</html> 

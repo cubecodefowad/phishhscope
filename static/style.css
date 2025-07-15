@@ -1,0 +1,218 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #f7fafd;
+  color: #222;
+  margin: 0;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 420px;
+  margin: 60px auto;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+  padding: 40px 32px 32px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1, h2 {
+  font-weight: 600;
+  margin-bottom: 12px;
+  letter-spacing: -1px;
+}
+
+.subtitle {
+  color: #4a5568;
+  font-size: 1.1rem;
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.cta-btn {
+  display: inline-block;
+  background: linear-gradient(90deg, #2563eb 0%, #1e40af 100%);
+  color: #fff;
+  font-weight: 600;
+  padding: 12px 32px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(37,99,235,0.08);
+  margin-top: 18px;
+}
+.cta-btn:hover {
+  background: linear-gradient(90deg, #1e40af 0%, #2563eb 100%);
+  box-shadow: 0 4px 16px rgba(37,99,235,0.13);
+}
+
+/* Custom file input */
+.file-label {
+  display: inline-block;
+  background: #e0e7ef;
+  color: #1e293b;
+  font-weight: 500;
+  padding: 10px 18px;
+  border-radius: 7px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background 0.2s;
+  border: 1px solid #cbd5e1;
+}
+.file-label:hover {
+  background: #d1d5db;
+}
+.file-name {
+  font-size: 0.98rem;
+  color: #64748b;
+  margin-right: 10px;
+  min-width: 90px;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.upload-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  width: 100%;
+  justify-content: center;
+}
+input[type="file"] {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  background: #f1f5f9;
+  font-size: 1rem;
+}
+
+.consent-notice {
+  font-size: 0.97rem;
+  color: #64748b;
+  margin-bottom: 10px;
+  margin-top: -8px;
+  text-align: center;
+}
+.consent-notice a {
+  color: #2563eb;
+  text-decoration: underline;
+  font-size: 0.97rem;
+}
+
+/* Result card */
+.result-card {
+  background: #f8fafc;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(37,99,235,0.06);
+  padding: 22px 18px 16px 18px;
+  margin-top: 18px;
+  width: 100%;
+  max-width: 420px;
+  box-sizing: border-box;
+  display: block;
+  animation: fadeIn 0.4s;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+
+.result-title {
+  font-size: 1.08rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.result-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 7px;
+  font-size: 1rem;
+}
+.label {
+  color: #64748b;
+  min-width: 70px;
+  font-weight: 500;
+}
+.malicious-val {
+  color: #dc2626;
+  font-weight: 600;
+}
+.suspicious-val {
+  color: #f59e42;
+  font-weight: 600;
+}
+.icon-file, .icon-malicious, .icon-suspicious, .icon-info, .icon-link {
+  font-size: 1.1em;
+}
+.loading {
+  color: #2563eb;
+  font-weight: 500;
+}
+.error {
+  color: #dc2626;
+  font-weight: 500;
+}
+
+.result {
+  margin-top: 18px;
+  padding: 18px;
+  background: #f1f5f9;
+  border-radius: 8px;
+  font-family: 'JetBrains Mono', 'Fira Mono', monospace;
+  font-size: 1rem;
+  min-height: 40px;
+  width: 100%;
+  word-break: break-word;
+  box-sizing: border-box;
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 28px;
+  color: #2563eb;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.2s;
+}
+.back-link:hover {
+  color: #1e40af;
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 24px 8px 18px 8px;
+    margin: 24px 0;
+  }
+  h1, h2 {
+    font-size: 1.4rem;
+  }
+  .cta-btn {
+    font-size: 1rem;
+    padding: 10px 18px;
+  }
+  .result-card {
+    padding: 14px 4px 10px 4px;
+    max-width: 100%;
+  }
+  .file-name {
+    max-width: 70px;
+    font-size: 0.92rem;
+  }
+}
